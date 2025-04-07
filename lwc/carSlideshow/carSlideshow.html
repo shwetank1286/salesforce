@@ -1,0 +1,14 @@
+<template>
+  <div class="slideshow-container">
+    <template for:each={cars} for:item="car">
+      <div key={car.id} class={car.slideClass}>
+        <img src={car.imageUrl} alt={car.name} />
+        <div class="overlay">
+          <div class="name">Indulge in {car.name}</div>
+        </div>
+      </div>
+    </template>
+    <button class="prev" onclick={handlePrev}>❮</button>
+    <button class="next" onclick={handleNext}>❯</button>
+  </div>
+</template>

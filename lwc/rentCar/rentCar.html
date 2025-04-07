@@ -1,0 +1,88 @@
+<template>
+    <lightning-card title="Rent a Car">
+        <div>
+            <lightning-combobox 
+                label="Select Rental Type" 
+                options={rentalTypeOptions} 
+                value={rentalType} 
+                onchange={handleRentalTypeChange}>
+            </lightning-combobox>
+        </div>
+
+        <!-- License Number Input -->
+        <lightning-input 
+            type="text" 
+            label="License Number" 
+            value={licenseNumber} 
+            onchange={handleLicenseChange} 
+            message-when-value-missing="License number is required"
+            message-when-pattern-mismatch="Invalid license number format.">
+        </lightning-input> 
+
+        <!-- Hourly Rental Fields -->
+        <template if:true={isHourly}>
+            <lightning-input type="number" label="Number of Hours" value={numberOfHours} onchange={handleNumberOfHoursChange}></lightning-input>
+            <lightning-input type="date" label="Start Date" value={startDate} onchange={handleStartDateChange}></lightning-input>
+            <lightning-input type="time" label="Start Time" value={startTime} onchange={handleTimeChange}></lightning-input>
+            <lightning-input type="date" label="End Date" value={endDate} onchange={handleEndDateChange}></lightning-input>
+        </template>
+
+        <!-- Daily Rental Fields -->
+        <template if:true={isDaily}>
+            <lightning-input type="date" label="Start Date" value={startDate} onchange={handleStartDateChange}></lightning-input>
+            <lightning-input type="date" label="End Date" value={endDate} onchange={handleEndDateChange}></lightning-input>
+        </template>
+
+        <!-- State and City Selection -->
+        <lightning-combobox 
+            label="Select the State" 
+            value={selectedState} 
+            options={stateOptions} 
+            onchange={handleStateChange}>
+        </lightning-combobox>
+
+        <lightning-combobox 
+            label="Select the City" 
+            value={selectedCity} 
+            options={cityOptions} 
+            onchange={handleCityChange}>
+        </lightning-combobox>
+
+        <!-- Car Selection -->
+        <div class="slds-m-around_medium"> 
+            <template if:true={carOptions.length}>
+                <lightning-combobox 
+                    label="Select Car" 
+                    value={selectedCarId} 
+                    options={carOptions} 
+                    onchange={handleCarChange}>
+                </lightning-combobox>
+            </template>
+
+            <!-- Book Car Button -->
+            <div class="slds-m-around_medium"> 
+                <lightning-button label="Book Car" variant="brand" onclick={handleBookCar}></lightning-button> 
+            </div>
+
+            <template if:true={rentalBook}>
+            <c-rental-payment
+            car-id={selectedCarId}
+            rental-id={rentalId}
+            start-date={startDate}
+            end-date={endDate}
+            start-time={startTime}
+            end-time={endTime}
+            license-number={licenseNumber}
+            rental-type = {rentalType}
+            contact-id = {customerId}>
+        </c-rental-payment>
+        </template>
+
+            <!-- Message Display -->
+            <template if:true={message}>
+                <p class="slds-m-top_medium">{message}</p>
+            </template>
+        </div>
+
+    </lightning-card>
+</template>

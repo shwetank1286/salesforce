@@ -1,0 +1,26 @@
+.slds-button_stretch {
+    width: 100%;
+    max-width: 300px;
+}
+
+.success-message {
+    color: #04844b;
+    font-weight: bold;
+}
+
+.error-message {
+    color: #c23934;
+    font-weight: bold;
+}
+
+lightning-card {
+    background: #f9fafb;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.slds-p-around_large {
+    background: #ffffff;
+    border-radius: 4px;
+    padding: 1.5rem;
+}

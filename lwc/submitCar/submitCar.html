@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="Active & Final Pending Rentals" icon-name="standard:record">
+        <div class="slds-p-around_medium">
+            <!-- Loading Spinner -->
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+            </template>
+            <!-- Rental History Table -->
+            <template if:true={rentals}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={rentals}
+                    columns={columns}
+                    hide-checkbox-column="true"
+                    onrowaction={handleRowAction}
+                ></lightning-datatable>
+            </template>
+            <!-- No Records Message -->
+            <template if:false={rentals}>
+                <p>No active or final pending rentals found.</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>

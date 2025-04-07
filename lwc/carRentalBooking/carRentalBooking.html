@@ -1,0 +1,176 @@
+<template>
+    <lightning-card title="Rent a Car" icon-name="standard:service_appointment">
+        <div class="slds-p-around_large">
+            <!-- Rental Type and License -->
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-combobox 
+                        label="Rental Type" 
+                        value={rentalType} 
+                        options={rentalTypeOptions} 
+                        onchange={updateRentalType} 
+                        required 
+                        placeholder="Select Rental Type">
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-input 
+                        label="License Number" 
+                        value={licenseNumber} 
+                        onchange={updateLicenseNumber} 
+                        required 
+                        placeholder="Enter License Number">
+                    </lightning-input>
+                </div>
+            </div>
+
+            <!-- Hourly Rental Fields -->
+            <template if:true={isHourly}>
+                <div class="slds-grid slds-gutters slds-m-top_medium">
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-input 
+                            type="number" 
+                            label="Number of Hours" 
+                            value={numberOfHours} 
+                            onchange={updateHours} 
+                            min="1" 
+                            required>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-input 
+                            type="date" 
+                            label="Start Date" 
+                            value={startDate} 
+                            onchange={updateStartDate} 
+                            required>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-combobox 
+                            label="Pick Up Time" 
+                            value={pickUpTime} 
+                            options={timeOptions} 
+                            onchange={updatePickUpTime} 
+                            required 
+                            placeholder="Select Pick Up Time">
+                        </lightning-combobox>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters slds-m-top_medium">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input 
+                            type="date" 
+                            label="End Date" 
+                            value={endDate} 
+                            readonly>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input 
+                            type="text" 
+                            label="Drop Time" 
+                            value={dropTime} 
+                            readonly>
+                        </lightning-input>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Daily Rental Fields -->
+            <template if:true={isDaily}>
+                <div class="slds-grid slds-gutters slds-m-top_medium">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input 
+                            type="date" 
+                            label="Start Date" 
+                            value={startDate} 
+                            onchange={updateStartDate} 
+                            required>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input 
+                            type="date" 
+                            label="End Date" 
+                            value={endDate} 
+                            onchange={updateEndDate} 
+                            required>
+                        </lightning-input>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Location Selection -->
+            <div class="slds-grid slds-gutters slds-m-top_medium">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-combobox 
+                        label="State" 
+                        value={selectedState} 
+                        options={stateOptions} 
+                        onchange={updateState} 
+                        required 
+                        placeholder="Select State">
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-combobox 
+                        label="City" 
+                        value={selectedCity} 
+                        options={cityOptions} 
+                        onchange={updateCity} 
+                        required 
+                        placeholder="Select City">
+                    </lightning-combobox>
+                </div>
+            </div>
+
+            <!-- Car Selection -->
+            <div class="slds-m-top_medium" if:true={carOptions.length}>
+                <lightning-combobox 
+                    label="Available Cars" 
+                    value={selectedCarId} 
+                    options={carOptions} 
+                    onchange={updateCarSelection} 
+                    required 
+                    placeholder="Select a Car">
+                </lightning-combobox>
+            </div>
+
+            <!-- Action Button -->
+            <div class="slds-m-top_large slds-text-align_center">
+                <lightning-button 
+                    label="Book Car" 
+                    variant="brand" 
+                    onclick={processBooking} 
+                    class="slds-button_stretch">
+                </lightning-button>
+            </div>
+
+            <!-- Payment Form -->
+            <template if:true={showPaymentForm}>
+                <div class="slds-m-top_large">
+                    <c-car-payment-processing
+                        car-id={selectedCarId}
+                        rental-id={rentalId}
+                        start-date={startDate}
+                        end-date={endDate}
+                        pick-up-time={pickUpTime}
+                        drop-time={dropTime}
+                        license-number={licenseNumber}
+                        rental-type={rentalType}
+                        contact-id={customerId}
+                        onpaymentcompleted={handlePaymentSuccess}>
+                    </c-car-payment-processing>
+                </div>
+            </template>
+
+            <!-- Message Display -->
+            <template if:true={message}>
+                <div class="slds-m-top_medium slds-text-align_center">
+                    <p class={messageClass}>{message}</p>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

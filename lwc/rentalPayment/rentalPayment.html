@@ -1,0 +1,105 @@
+<template>
+    <lightning-card title="Payment Details">
+        <div class="slds-p-around_medium">
+            <!-- Payment Method Selection -->
+
+            <div class="slds-text-heading_small slds-m-bottom_medium">
+                Amount to be Paid: ₹{amount}
+                <br>
+                Adavance Amount: ₹{advanceAmount} <!-- Display the amount variable -->
+                <br>
+                <strong>Note: Advance amount will not be returned in case of cancellation</strong>
+            </div>
+
+            <lightning-combobox
+                name="paymentMethod"
+                label="Payment Method"
+                value={paymentMethod}
+                options={paymentMethodOptions}
+                onchange={handlePaymentMethodChange}
+                required
+            ></lightning-combobox>
+ 
+            <!-- Cash Payment -->
+            <template if:true={isCashSelected}>
+                <lightning-input
+                    type="checkbox"
+                    label="Acknowledge Cash Payment"
+                    checked={cashAcknowledged}
+                    onchange={handleCashAcknowledgment}
+                    class="slds-m-top_medium"
+                ></lightning-input>
+            </template>
+ 
+            <!-- Card Payment -->
+            <template if:true={isCardSelected}>
+                <lightning-input
+                    type="text"
+                    label="Card Number"
+                    value={cardNumber}
+                    onchange={handleCardNumberChange}
+                    class="slds-m-top_medium"
+                    required
+                ></lightning-input>
+                <lightning-input
+                    type="text"
+                    label="Cardholder Name"
+                    value={cardholderName}
+                    onchange={handleCardholderNameChange}
+                    class="slds-m-top_medium"
+                    required
+                ></lightning-input>
+                <lightning-input
+                    type="text"
+                    label="Expiry Month (MM)"
+                    value={expiryMonth}
+                    onchange={handleExpiryMonthChange}
+                    class="slds-m-top_medium"
+                    required
+                ></lightning-input>
+                <lightning-input
+                    type="text"
+                    label="Expiry Year (YYYY)"
+                    value={expiryYear}
+                    onchange={handleExpiryYearChange}
+                    class="slds-m-top_medium"
+                    required
+                ></lightning-input>
+                <lightning-input
+                    type="password"
+                    label="CVV"
+                    value={cvv}
+                    onchange={handleCvvChange}
+                    class="slds-m-top_medium"
+                    required
+                ></lightning-input>
+            </template>
+ 
+            <!-- UPI Payment -->
+            <template if:true={isUpiSelected}>
+                <lightning-input
+                    type="text"
+                    label="UPI ID"
+                    value={upiId}
+                    onchange={handleUpiIdChange}
+                    class="slds-m-top_medium"
+                    required
+                ></lightning-input>
+                <template if:true={showQrCode}>
+                    <!-- Add QR code display logic here if needed -->
+                    <div class="slds-m-top_medium">QR Code Placeholder</div>
+                </template>
+            </template>
+ 
+            <!-- Submit Button -->
+            <div class="slds-m-top_medium">
+                <lightning-button
+                    variant="brand"
+                    label="Submit Payment"
+                    onclick={handlePayment}
+                    
+                ></lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>

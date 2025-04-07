@@ -1,0 +1,16 @@
+<template>
+    <div class="video-container">
+        <video class="fullscreen-video" loop autoplay muted>
+            <source src={videoUrl} type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="overlay-content">
+            <h1 class="overlay-text">Rent A Car Now!!!!</h1>
+            <lightning-button
+                label="Click Here to Book"
+                onclick={handleRedirect}
+                class="overlay-button">
+            </lightning-button>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,70 @@
+/* General Styles */
+.slds-modal__container {
+    max-width: 600px;
+}
+
+.slds-modal__header,
+.slds-modal__footer {
+    background-color: #f4f6f9;
+}
+
+.slds-modal__title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.slds-modal__content {
+    padding: 1rem;
+}
+
+.slds-button_neutral,
+.slds-button_destructive,
+.slds-button_brand,
+.slds-button_success {
+    margin: 0.5rem;
+}
+
+/* Loading Spinner */
+.lightning-spinner {
+    margin: auto;
+}
+
+/* Rental History Table */
+.lightning-datatable {
+    margin-top: 1rem;
+}
+
+/* No Records Message */
+p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Confirmation Modal */
+.slds-modal__content p {
+    font-size: 1rem;
+    color: #333;
+}
+
+.slds-modal__content strong {
+    color: #d9534f;
+}
+
+/* Date Update Modal */
+.lightning-input {
+    margin-bottom: 1rem;
+}
+
+/* Payment Modal */
+.lightning-combobox,
+.lightning-input[type="checkbox"] {
+    margin-bottom: 1rem;
+}
+
+/* Static Resource Image */
+img {
+    width: 150px; /* Adjust the width as needed */
+    height: auto;
+    display: block;
+    margin: auto;
+}

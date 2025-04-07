@@ -1,0 +1,35 @@
+/* Style for the lightning-card */
+.lightning-card {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the comboboxes */
+.lightning-combobox {
+    margin-bottom: 15px;
+}
+
+/* Style for the inputs */
+.lightning-input {
+    margin-bottom: 15px;
+}
+
+/* Style for the buttons */
+.lightning-button {
+    margin-top: 20px;
+}
+
+/* Style for the message paragraph */
+.slds-m-top_medium {
+    margin-top: 20px;
+    color: #4caf50; /* Green color for success message */
+    font-weight: bold;
+}
+
+/* Additional spacing for the medium margin class */
+.slds-m-around_medium {
+    margin: 20px;
+}

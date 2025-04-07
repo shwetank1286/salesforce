@@ -1,0 +1,34 @@
+<template>
+    <lightning-card title="Payment Details">
+        <div class="slds-m-around_medium">
+            <p>Total Amount: {amount}</p>
+            <p>Advance Amount (20%): {advanceAmount}</p>
+
+            <lightning-combobox
+                label="Payment Method"
+                value={paymentMethod}
+                options={paymentMethodOptions}
+                onchange={updatePaymentMethod}>
+            </lightning-combobox>
+
+            <template if:true={isCashSelected}>
+                <lightning-input type="checkbox" label="Acknowledge Cash Payment" checked={cashAcknowledged} onchange={updateCashAcknowledgment}></lightning-input>
+            </template>
+
+            <template if:true={isUpiSelected}>
+                <lightning-input type="text" label="UPI ID" value={upiId} onchange={updateUpiId}></lightning-input>
+                <img src={qrCodeUrl} alt="UPI QR Code" class="slds-m-top_small" style="max-width: 200px;" />
+            </template>
+
+            <template if:true={isCardSelected}>
+                <lightning-input type="text" label="Card Number" value={cardNumber} onchange={updateCardNumber}></lightning-input>
+                <lightning-input type="text" label="Cardholder Name" value={cardholderName} onchange={updateCardholderName}></lightning-input>
+                <lightning-input type="number" label="Expiry Month (MM)" value={expiryMonth} onchange={updateExpiryMonth}></lightning-input>
+                <lightning-input type="number" label="Expiry Year (YYYY)" value={expiryYear} onchange={updateExpiryYear}></lightning-input>
+                <lightning-input type="number" label="CVV" value={cvv} onchange={updateCvv}></lightning-input>
+            </template>
+
+            <lightning-button label="Submit Payment" variant="brand" onclick={submitPayment} disabled={isPaymentInvalid}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

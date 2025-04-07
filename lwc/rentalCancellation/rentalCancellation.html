@@ -1,0 +1,154 @@
+<template>
+    <lightning-card title="My Rental History" icon-name="custom:custom17">
+        <div slot="actions">
+            <lightning-button label="Refresh" title="Refresh data" onclick={handleRefresh} variant="neutral"></lightning-button>
+        </div>
+        <div class="slds-p-around_medium">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+            </template>
+            <template if:true={rentals}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={rentals}
+                    columns={columns}
+                    hide-checkbox-column="true"
+                    onrowaction={handleRowAction}
+                ></lightning-datatable>
+            </template>
+            <template if:false={rentals}>
+                <p>No rental history found.</p>
+            </template>
+        </div>
+    </lightning-card>
+
+    <template if:true={showModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-modal__title">Confirm Cancellation</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <p>Are you sure you want to cancel this rental?</p>
+                    <strong class="slds-text-color_destructive">Note: Your advance payment will not be refunded upon cancellation.</strong>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal}>No</button>
+                    <button class="slds-button slds-button_destructive" onclick={confirmCancel}>Yes</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={showDateModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-modal__title">Update Rental Dates</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-input
+                        type="date"
+                        label="Start Date"
+                        value={selectedStartDate}
+                        onchange={handleStartDateChange}
+                    ></lightning-input>
+                    <lightning-input
+                        type="date"
+                        label="End Date"
+                        value={selectedEndDate}
+                        onchange={handleEndDateChange}
+                    ></lightning-input>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeDateModal}>Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={updateDates}>Save</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={showPaymentModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-modal__title">Process Payment</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <p>Original Amount: <strong>{originalAmount}</strong></p>
+                    <p>Redeemable Cash Available: <strong>{redeemableCash}</strong></p>
+                    <p>Amount to Pay: <strong>{adjustedAmountToPay}</strong></p>
+                    <lightning-input
+                        type="checkbox"
+                        label="Use Redeemable Cash"
+                        checked={useRedeemableCash}
+                        onchange={handleRedeemableCashChange}
+                    ></lightning-input>
+                    <lightning-combobox
+                        label="Mode of Payment"
+                        value={selectedPaymentMode}
+                        options={paymentModeOptions}
+                        onchange={handlePaymentModeChange}
+                    ></lightning-combobox>
+                    <template if:true={isCardMode}>
+                        <lightning-input
+                            type="text"
+                            label="Card Number"
+                            value={cardNumber}
+                            maxlength="16"
+                            onchange={handleCardNumberChange}
+                        ></lightning-input>
+                        <lightning-input
+                            type="text"
+                            label="Card Owner Name"
+                            value={cardOwnerName}
+                            onchange={handleCardOwnerNameChange}
+                        ></lightning-input>
+                        <lightning-input
+                            type="date"
+                            label="Card Expiry Date"
+                            value={cardExpiryDate}
+                            onchange={handleCardExpiryDateChange}
+                        ></lightning-input>
+                        <lightning-input
+                            type="text"
+                            label="CVV"
+                            value={cvv}
+                            maxlength="3"
+                            onchange={handleCvvChange}
+                        ></lightning-input>
+                    </template>
+                    <template if:true={isCashMode}>
+                        <lightning-input
+                            type="checkbox"
+                            label="Acknowledge Cash Payment"
+                            checked={cashAcknowledged}
+                            onchange={handleCashAcknowledgementChange}
+                        ></lightning-input>
+                    </template>
+                    <template if:true={isUpiMode}>
+                        <lightning-input
+                            type="text"
+                            label="UPI ID"
+                            value={upiId}
+                            maxlength="50"
+                            onchange={handleUpiIdChange}
+                        ></lightning-input>
+                        <img src={qrCodeUrl} alt="QR Code" class="slds-m-top_small" />
+                    </template>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closePaymentModal}>Cancel</button>
+                    <button
+                        class="slds-button slds-button_success"
+                        onclick={processPayment}
+                        disabled={isPayButtonDisabled}
+                    >Pay</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>
